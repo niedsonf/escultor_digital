@@ -11,8 +11,7 @@ private:
     std::vector<FiguraGeometrica*> figs;
     std::vector<FiguraGeometrica*>::iterator itf;
 public:
-    Interpreter(const char* filename);
-    ~Interpreter();
+    Interpreter(std::string filename);
     void draw(Sculptor &s);
     int getdimX();
     int getdimY();

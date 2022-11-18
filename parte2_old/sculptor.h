@@ -4,12 +4,12 @@
 #include "voxel.h"
 
 class Sculptor
-{    
-public:
+{
+private:
     Voxel ***v;
     int nx,ny,nz;
     float r,g,b,a;
-
+public:
     Sculptor(int _nx, int _ny, int _nz);
     ~Sculptor();
     void setColor(float r, float g, float b, float a);

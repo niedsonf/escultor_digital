@@ -7,23 +7,26 @@ Sculptor::Sculptor(int nx, int ny, int nz)
 {
     if (nx <= 0 || ny <= 0 || nz <= 0)
     {
-        throw "Dimensoes invalidas para matriz do escultor";
+        std::cout << "Tamanho de matriz invalido, insira dimensoes maiores que 0\n";
+        std::cout << "Pressione Enter para fechar a janela...\n";
+        std::cin.get();
+        exit(1);
     }
     this->nx = nx;
     this->ny = ny;
     this->nz = nz;
-    v = new Voxel **[nx];
-    v[0] = new Voxel *[nx * ny];
-    v[0][0] = new Voxel[nx * ny * nz];
-    for (int i = 1; i < nx; i++)
+    v = new Voxel **[nz];
+    v[0] = new Voxel *[nz * nx];
+    v[0][0] = new Voxel[nz * ny * nx];
+    for (int i = 1; i < nz; i++)
     {
-        v[i] = v[i - 1] + ny;
+        v[i] = v[i - 1] + nx;
     }
-    for (int i = 1; i < nx * ny; i++)
+    for (int i = 1; i < nx * nz; i++)
     {
-        v[0][i] = v[0][i - 1] + nz;
+        v[0][i] = v[0][i - 1] + ny;
     }
-    for (int i = 0; i < nx * ny * nz; i++)
+    for (int i = 0; i < nz * nx * ny; i++)
     {
         v[0][0][i].isOn = false;
     }
@@ -35,15 +38,6 @@ Sculptor::~Sculptor()
     delete[] v[0];
     delete[] v;
 }
-
-void Sculptor::setColor(float r, float g, float b, float a)
-{
-    this->r = r;
-    this->g = g;
-    this->b = b;
-    this->a = a;
-}
-
 
 void Sculptor::putVoxel(int x, int y, int z)
 {
@@ -57,7 +51,10 @@ void Sculptor::putVoxel(int x, int y, int z)
     }
     else
     {
-        std::cout << "Erro em putVoxel\n";
+        std::cout << "Referência invalida na chamada da funcao 'putVoxel'\n";
+        std::cout << "Pressione Enter para fechar a janela...\n";
+        std::cin.get();
+        exit(1);
     }
 }
 
@@ -69,7 +66,10 @@ void Sculptor::cutVoxel(int x, int y, int z)
     }
     else
     {
-         std::cout << "Erro em cutVoxel\n";
+        std::cout << "Referência invalida na chamada da funcao 'cutVoxel'\n";
+        std::cout << "Pressione Enter para fechar a janela...\n";
+        std::cin.get();
+        exit(1);
     }
 }
 
@@ -87,6 +87,7 @@ void Sculptor::writeOFF(const char *filename)
     else
     {
         std::cout << "Erro na abertura do arquivo\n";
+        std::cout << "Pressione Enter para fechar a janela...\n";
         std::cin.get();
         exit(1);
     }

@@ -10,7 +10,7 @@ protected:
 
 public:
     FiguraGeometrica();
-    ~FiguraGeometrica();
+    virtual ~FiguraGeometrica();
     virtual void draw(Sculptor &s)=0;
 };
 
