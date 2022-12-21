@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Digital Sculptor</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="65,35">
+    <property name="leftMargin">
+     <number>16</number>
+    </property>
+    <property name="rightMargin">
+     <number>16</number>
+    </property>
+    <item>
+     <widget class="SculptorDisplay" name="sculptorDisplay" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Tamanho X</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSlider" name="horizontalSlider_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLCDNumber" name="lcdNumber">
+        <property name="digitCount">
+         <number>5</number>
+        </property>
+        <property name="segmentStyle">
+         <enum>QLCDNumber::Flat</enum>
+        </property>
+        <property name="intValue" stdset="0">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Tamanho Y</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSlider" name="horizontalSlider_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLCDNumber" name="lcdNumber_2">
+        <property name="segmentStyle">
+         <enum>QLCDNumber::Flat</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Raio / Raio X</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSlider" name="horizontalSlider_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLCDNumber" name="lcdNumber_3">
+        <property name="segmentStyle">
+         <enum>QLCDNumber::Flat</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Raio Y</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSlider" name="horizontalSlider_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLCDNumber" name="lcdNumber_4">
+        <property name="segmentStyle">
+         <enum>QLCDNumber::Flat</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Raio Z</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSlider" name="horizontalSlider_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLCDNumber" name="lcdNumber_5">
+        <property name="segmentStyle">
+         <enum>QLCDNumber::Flat</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Plano Z</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QSlider" name="horizontalSliderZ">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLCDNumber" name="lcdNumber_6">
+        <property name="segmentStyle">
+         <enum>QLCDNumber::Flat</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Escolher cor</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1024</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>true</bool>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>50</width>
+     <height>50</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNewModel"/>
+   <addaction name="actionBuildOFF"/>
+   <addaction name="actionPutVoxel"/>
+   <addaction name="actionCutVoxel"/>
+   <addaction name="actionPutBox"/>
+   <addaction name="actionCutBox"/>
+   <addaction name="actionPutSphere"/>
+   <addaction name="actionCutSphere"/>
+   <addaction name="actionPutEllipse"/>
+   <addaction name="actionCutEllipse"/>
+  </widget>
+  <action name="actionNewModel">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/assets/newmodel.svg</normaloff>:/icons/assets/newmodel.svg</iconset>
+   </property>
+   <property name="text">
+    <string>New Model</string>
+   </property>
+   <property name="toolTip">
+    <string>New Model</string>
+   </property>
+  </action>
+  <action name="actionBuildOFF">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/assets/buildoff.svg</normaloff>:/icons/assets/buildoff.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Build OFF</string>
+   </property>
+   <property name="toolTip">
+    <string>Build OFF File</string>
+   </property>
+  </action>
+  <action name="actionPutVoxel">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/assets/putvoxel.svg</normaloff>:/icons/assets/putvoxel.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Put Voxel</string>
+   </property>
+   <property name="toolTip">
+    <string>Put Voxel</string>
+   </property>
+  </action>
+  <action name="actionCutVoxel">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/assets/cutvoxel.svg</normaloff>:/icons/assets/cutvoxel.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Cut Voxel</string>
+   </property>
+   <property name="toolTip">
+    <string>Cut Voxel</string>
+   </property>
+  </action>
+  <action name="actionPutBox">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/assets/putbox.svg</normaloff>:/icons/assets/putbox.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Put Box</string>
+   </property>
+   <property name="toolTip">
+    <string>Put Box</string>
+   </property>
+  </action>
+  <action name="actionCutBox">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/assets/cutbox.svg</normaloff>:/icons/assets/cutbox.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Cut Box</string>
+   </property>
+   <property name="toolTip">
+    <string>Cut Box</string>
+   </property>
+  </action>
+  <action name="actionPutSphere">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/assets/putsphere.svg</normaloff>:/icons/assets/putsphere.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Put Sphere</string>
+   </property>
+   <property name="toolTip">
+    <string>Put Sphere</string>
+   </property>
+  </action>
+  <action name="actionCutSphere">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/assets/cutsphere.svg</normaloff>:/icons/assets/cutsphere.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Cut Sphere</string>
+   </property>
+   <property name="toolTip">
+    <string>Cut Sphere</string>
+   </property>
+  </action>
+  <action name="actionPutEllipse">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/assets/putellipse.svg</normaloff>:/icons/assets/putellipse.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Put Ellipse</string>
+   </property>
+   <property name="toolTip">
+    <string>Put Ellipse</string>
+   </property>
+  </action>
+  <action name="actionCutEllipse">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/assets/cutellipse.svg</normaloff>:/icons/assets/cutellipse.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Cut Ellipse</string>
+   </property>
+   <property name="toolTip">
+    <string>Cut Ellipse</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SculptorDisplay</class>
+   <extends>QWidget</extends>
+   <header>sculptordisplay.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="assets.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>horizontalSlider_2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lcdNumber</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>678</x>
+     <y>105</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>764</x>
+     <y>108</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider_3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lcdNumber_2</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>702</x>
+     <y>187</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>741</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider_4</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lcdNumber_3</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>699</x>
+     <y>268</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>742</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider_5</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lcdNumber_4</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>701</x>
+     <y>341</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>747</x>
+     <y>340</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider_6</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lcdNumber_5</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>690</x>
+     <y>420</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>747</x>
+     <y>420</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSliderZ</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>lcdNumber_6</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>701</x>
+     <y>546</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>753</x>
+     <y>541</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

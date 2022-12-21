@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>assets/buildoff.svg</file>
+        <file>assets/cutbox.svg</file>
+        <file>assets/cutellipse.svg</file>
+        <file>assets/cutsphere.svg</file>
+        <file>assets/cutvoxel.svg</file>
+        <file>assets/newmodel.svg</file>
+        <file>assets/putbox.svg</file>
+        <file>assets/putellipse.svg</file>
+        <file>assets/putsphere.svg</file>
+        <file>assets/putvoxel.svg</file>
+    </qresource>
+</RCC>
