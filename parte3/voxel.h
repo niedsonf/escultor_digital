@@ -3,7 +3,7 @@
 
 struct Voxel {
     float r,g,b,a;
-    bool isOn;
+    bool isOn = false;
 };
 
 #endif // VOXEL_H

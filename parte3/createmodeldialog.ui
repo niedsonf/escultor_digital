@@ -42,7 +42,7 @@
     <string>Insira a dimensão da nova matriz cúbica</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -54,6 +54,9 @@
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QSlider" name="horizontalSliderD">
+      <property name="minimum">
+       <number>10</number>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -63,6 +66,9 @@
      <widget class="QLCDNumber" name="lcdNumber">
       <property name="segmentStyle">
        <enum>QLCDNumber::Flat</enum>
+      </property>
+      <property name="value" stdset="0">
+       <double>10.000000000000000</double>
       </property>
      </widget>
     </item>
@@ -110,12 +116,12 @@
    <slot>display(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>297</x>
-     <y>62</y>
+     <x>204</x>
+     <y>145</y>
     </hint>
     <hint type="destinationlabel">
-     <x>360</x>
-     <y>62</y>
+     <x>274</x>
+     <y>141</y>
     </hint>
    </hints>
   </connection>

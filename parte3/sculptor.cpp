@@ -15,18 +15,18 @@ Sculptor::Sculptor(int nx, int ny, int nz)
     this->nx = nx;
     this->ny = ny;
     this->nz = nz;
-    v = new Voxel **[nz];
-    v[0] = new Voxel *[nz * nx];
-    v[0][0] = new Voxel[nz * ny * nx];
-    for (int i = 1; i < nz; i++)
+    v = new Voxel **[nx];
+    v[0] = new Voxel *[nx * ny];
+    v[0][0] = new Voxel[nx * ny * nz];
+    for (int i = 1; i < nx; i++)
     {
-        v[i] = v[i - 1] + nx;
+        v[i] = v[i - 1] + ny;
     }
-    for (int i = 1; i < nx * nz; i++)
+    for (int i = 1; i < nx * ny; i++)
     {
-        v[0][i] = v[0][i - 1] + ny;
+        v[0][i] = v[0][i - 1] + nz;
     }
-    for (int i = 0; i < nz * nx * ny; i++)
+    for (int i = 0; i < nx * ny * nz; i++)
     {
         v[0][0][i].isOn = false;
     }
@@ -44,13 +44,127 @@ std::vector<std::vector<Voxel> > Sculptor::getPlan(int plan)
     std::vector<std::vector<Voxel>> holder;
     std::vector<Voxel> auxHolder;
     for(int y=0; y<ny; y++){
-        for(int x=0; x<ny; x++){
+        for(int x=0; x<nx; x++){
             auxHolder.push_back(v[x][y][plan]);
         }
         holder.push_back(auxHolder);
         auxHolder.clear();
     }
     return holder;
+}
+
+std::vector<std::vector<Voxel> > Sculptor::getView(View view)
+{
+    std::vector<std::vector<Voxel>> holder;
+    std::vector<Voxel> auxHolder;
+    Voxel viewVoxel;
+
+    switch(view){
+    case FrontView:
+        for(int y=0; y<ny; y++){
+            for(int x=0; x<nx; x++){
+                for(int z=nz-1; z>=0; z--){
+                    if(v[x][y][z].isOn){
+                        viewVoxel = v[x][y][z];
+                    }
+                }
+                auxHolder.push_back(viewVoxel);
+                viewVoxel.isOn = false;
+            }
+            holder.push_back(auxHolder);
+            auxHolder.clear();
+        }
+        break;
+
+    case BackView:
+        for(int y=0; y<ny; y++){
+            for(int x=nx-1; x>=0; x--){
+                for(int z=0; z<nz; z++){
+                    if(v[x][y][z].isOn){
+                        viewVoxel = v[x][y][z];
+                    }
+                }
+                auxHolder.push_back(viewVoxel);
+                viewVoxel.isOn = false;
+            }
+            holder.push_back(auxHolder);
+            auxHolder.clear();
+        }
+        break;
+
+    case TopView:
+        for(int y=ny-1; y>=0; y--){
+            for(int x=0; x<nx; x++){
+                for(int z=ny-1; z>=0; z--){
+                    if(v[x][z][y].isOn){
+                        viewVoxel = v[x][z][y];
+                    }
+                }
+                auxHolder.push_back(viewVoxel);
+                viewVoxel.isOn = false;
+            }
+            holder.push_back(auxHolder);
+            auxHolder.clear();
+        }
+        break;
+
+    case BottomView:
+        for(int y=0; y<ny; y++){
+            for(int x=0; x<nx; x++){
+                for(int z=0; z<nz; z++){
+                    if(v[x][z][y].isOn){
+                        viewVoxel = v[x][z][y];
+                    }
+                }
+                auxHolder.push_back(viewVoxel);
+                viewVoxel.isOn = false;
+            }
+            holder.push_back(auxHolder);
+            auxHolder.clear();
+        }
+        break;
+
+
+
+    case LeftView:
+        for(int y=0; y<ny; y++){
+            for(int x=nx-1; x>=0; x--){
+                for(int z=nz-1; z>=0; z--){
+                    if(v[z][y][x].isOn){
+                        viewVoxel = v[z][y][x];
+                    }
+                }
+                auxHolder.push_back(viewVoxel);
+                viewVoxel.isOn = false;
+            }
+            holder.push_back(auxHolder);
+            auxHolder.clear();
+        }
+        break;
+
+    case RightView:
+        for(int y=0; y<ny; y++){
+            for(int x=0; x<nx; x++){
+                for(int z=0; z<nz; z++){
+                    if(v[z][y][x].isOn){
+                        viewVoxel = v[z][y][x];
+                    }
+                }
+                auxHolder.push_back(viewVoxel);
+                viewVoxel.isOn = false;
+            }
+            holder.push_back(auxHolder);
+            auxHolder.clear();
+        }
+        break;
+
+
+}
+
+
+
+
+return holder;
 }
 
 void Sculptor::setColor(float r, float g, float b, float a)
@@ -74,9 +188,6 @@ void Sculptor::putVoxel(int x, int y, int z)
     else
     {
         std::cout << "Referência invalida na chamada da funcao 'putVoxel'\n";
-        std::cout << "Pressione Enter para fechar a janela...\n";
-        std::cin.get();
-        exit(1);
     }
 }
 
@@ -89,27 +200,26 @@ void Sculptor::cutVoxel(int x, int y, int z)
     else
     {
         std::cout << "Referência invalida na chamada da funcao 'cutVoxel'\n";
-        std::cout << "Pressione Enter para fechar a janela...\n";
-        std::cin.get();
-        exit(1);
     }
 }
 
 void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1)
 {
-    if ((x0 >= 0 && y0 >= 0 && z0 >= 0) && (x1 < nx && y1 < ny && z1 < nz))
+    if (x0 >= 0 && y0 >= 0 && z0 >= 0)
     {
-        for (int i = z0; i < z1; i++)
+        for (int i = x0; i < x1; i++)
         {
-            for (int j = x0; j < x1; j++)
+            for (int j = y0; j < y1; j++)
             {
-                for (int k = y0; k < y1; k++)
+                for (int k = z0; k < z1; k++)
                 {
-                    v[i][j][k].r = r;
-                    v[i][j][k].g = g;
-                    v[i][j][k].b = b;
-                    v[i][j][k].a = a;
-                    v[i][j][k].isOn = true;
+                    if(j < nx && k < ny && i < nz){
+                        v[i][j][k].r = r;
+                        v[i][j][k].g = g;
+                        v[i][j][k].b = b;
+                        v[i][j][k].a = a;
+                        v[i][j][k].isOn = true;
+                    }
                 }
             }
         }
@@ -117,23 +227,22 @@ void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1)
     else
     {
         std::cout << "Referência invalida na chamada da funcao 'putBox'\n";
-        std::cout << "Pressione Enter para fechar a janela...\n";
-        std::cin.get();
-        exit(1);
     }
 }
 
 void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1)
 {
-    if ((x0 >= 0 && y0 >= 0 && z0 >= 0) && (x1 < nx && y1 < ny && z1 < nz))
+    if (x0 >= 0 && y0 >= 0 && z0 >= 0)
     {
-        for (int i = z0; i < z1; i++)
+        for (int i = x0; i < x1; i++)
         {
-            for (int j = x0; j < x1; j++)
+            for (int j = y0; j < y1; j++)
             {
-                for (int k = y0; k < y1; k++)
+                for (int k = z0; k < z1; k++)
                 {
-                    v[i][j][k].isOn = false;
+                    if(j < nx && k < ny && i < nz){
+                        v[i][j][k].isOn = false;
+                    }
                 }
             }
         }
@@ -141,9 +250,6 @@ void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1)
     else
     {
         std::cout << "Referência invalida na chamada da funcao 'cutBox'\n";
-        std::cout << "Pressione Enter para fechar a janela...\n";
-        std::cin.get();
-        exit(1);
     }
 }
 
@@ -151,13 +257,13 @@ void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius)
 {
     if (xcenter>=0 && ycenter>=0 && zcenter>=0 && xcenter<nx && ycenter<ny && zcenter<nz)
     {
-        for (int i = 0; i < nz; i++)
+        for (int i = 0; i < nx; i++)
         {
-            for (int j = 0; j < nx; j++)
+            for (int j = 0; j < ny; j++)
             {
-                for (int k = 0; k < ny; k++)
+                for (int k = 0; k < nz; k++)
                 {
-                    int value = (j - xcenter) * (j - xcenter) + (k - ycenter) * (k - ycenter) + (i - zcenter) * (i - zcenter);
+                    int value = (i - xcenter) * (i - xcenter) + (j - ycenter) * (j - ycenter) + (k - zcenter) * (k - zcenter);
                     if (value <= (radius) * (radius))
                     {
                         v[i][j][k].isOn = true;
@@ -173,9 +279,6 @@ void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius)
     else
     {
         std::cout << "Referência invalida na chamada da funcao 'putSphere'\n";
-        std::cout << "Pressione Enter para fechar a janela...\n";
-        std::cin.get();
-        exit(1);
     }
 }
 
@@ -183,14 +286,14 @@ void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius)
 {
     if (xcenter>=0 && ycenter>=0 && zcenter>=0 && xcenter<nx && ycenter<ny && zcenter<nz)
     {
-        for (int i = 0; i < nz; i++)
+        for (int i = 0; i < nx; i++)
         {
-            for (int j = 0; j < nx; j++)
+            for (int j = 0; j < ny; j++)
             {
-                for (int k = 0; k < ny; k++)
+                for (int k = 0; k < nz; k++)
                 {
 
-                    int value = (j - xcenter) * (j - xcenter) + (k - ycenter) * (k - ycenter) + (i - zcenter) * (i - zcenter);
+                    int value = (i - xcenter) * (i - xcenter) + (j - ycenter) * (j - ycenter) + (k - zcenter) * (k - zcenter);
                     if (value <= (radius) * (radius))
                     {
                         v[i][j][k].isOn = false;
@@ -202,9 +305,6 @@ void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius)
     else
     {
         std::cout << "Referência invalida na chamada da funcao 'cutSphere'\n";
-        std::cout << "Pressione Enter para fechar a janela...\n";
-        std::cin.get();
-        exit(1);
     }
 }
 
@@ -212,14 +312,13 @@ void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
 {
     if (xcenter>=0 && ycenter>=0 && zcenter>=0 && xcenter<nx && ycenter<ny && zcenter<nz)
     {
-        for (int i = 0; i < nz; i++)
+        for (int i = 0; i < nx; i++)
         {
-            for (int j = 0; j < nx; j++)
+            for (int j = 0; j < ny; j++)
             {
-                for (int k = 0; k < ny; k++)
+                for (int k = 0; k < nz; k++)
                 {
-
-                    int value = ((j - xcenter) * (j - xcenter)) / (rx * rx) + ((k - ycenter) * (k - ycenter)) / (ry * ry) + ((i - zcenter) * (i - zcenter)) / (rz * rz);
+                    int value = ((i - xcenter) * (i - xcenter)) / (rx * rx) + ((j - ycenter) * (j - ycenter)) / (ry * ry) + ((k - zcenter) * (k - zcenter)) / (rz * rz);
                     if (value <= 1)
                     {
                         v[i][j][k].isOn = true;
@@ -235,9 +334,6 @@ void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
     else
     {
         std::cout << "Referência invalida na chamada da funcao 'putEllipsoid'\n";
-        std::cout << "Pressione Enter para fechar a janela...\n";
-        std::cin.get();
-        exit(1);
     }
 }
 
@@ -245,14 +341,14 @@ void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
 {
     if (xcenter>=0 && ycenter>=0 && zcenter>=0 && xcenter<nx && ycenter<ny && zcenter<nz)
     {
-        for (int i = 0; i < nz; i++)
+        for (int i = 0; i < nx; i++)
         {
-            for (int j = 0; j < nx; j++)
+            for (int j = 0; j < ny; j++)
             {
-                for (int k = 0; k < ny; k++)
+                for (int k = 0; k < nz; k++)
                 {
 
-                    int value = ((j - xcenter) * (j - xcenter)) / (rx * rx) + ((k - ycenter) * (k - ycenter)) / (ry * ry) + ((i - zcenter) * (i - zcenter)) / (rz * rz);
+                    int value = ((i - xcenter) * (i - xcenter)) / (rx * rx) + ((j - ycenter) * (j - ycenter)) / (ry * ry) + ((k - zcenter) * (k - zcenter)) / (rz * rz);
                     if (value <= 1)
                     {
                         v[i][j][k].isOn = false;
@@ -264,17 +360,14 @@ void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
     else
     {
         std::cout << "Referência invalida na chamada da funcao 'cutEllipsoid'\n";
-        std::cout << "Pressione Enter para fechar a janela...\n";
-        std::cin.get();
-        exit(1);
     }
 }
 
-void Sculptor::writeOFF(const char *filename)
+void Sculptor::writeOFF(QString filename)
 {
     std::ofstream fout;
     int nVoxel = 0, ref = 0;
-    fout.open(filename);
+    fout.open(filename.toUtf8()+".off");
 
     if (fout.is_open())
     {
@@ -283,16 +376,13 @@ void Sculptor::writeOFF(const char *filename)
     else
     {
         std::cout << "Erro na abertura do arquivo\n";
-        std::cout << "Pressione Enter para fechar a janela...\n";
-        std::cin.get();
-        exit(1);
     }
 
-    for (int i = 0; i < nz; i++)
+    for (int i = 0; i < nx; i++)
     {
-        for (int j = 0; j < nx; j++)
+        for (int j = 0; j < ny; j++)
         {
-            for (int k = 0; k < ny; k++)
+            for (int k = 0; k < nz; k++)
             {
                 if (v[i][j][k].isOn)
                 {
@@ -305,11 +395,11 @@ void Sculptor::writeOFF(const char *filename)
     fout << "OFF" << std::endl;
     fout << nVoxel * 8 << " " << nVoxel * 6 << " " << 0 << std::endl;
 
-    for (int i = 0; i < nz; i++)
+    for (int i = 0; i < nx; i++)
     {
-        for (int j = 0; j < nx; j++)
+        for (int j = 0; j < ny; j++)
         {
-            for (int k = 0; k < ny; k++)
+            for (int k = 0; k < nz; k++)
             {
                 if (v[i][j][k].isOn)
                 {
@@ -326,11 +416,11 @@ void Sculptor::writeOFF(const char *filename)
         }
     }
 
-    for (int i = 0; i < nz; i++)
+    for (int i = 0; i < nx; i++)
     {
-        for (int j = 0; j < nx; j++)
+        for (int j = 0; j < ny; j++)
         {
-            for (int k = 0; k < ny; k++)
+            for (int k = 0; k < nz; k++)
             {
                 if (v[i][j][k].isOn)
                 {
@@ -355,8 +445,5 @@ void Sculptor::writeOFF(const char *filename)
     if (fout.is_open())
     {
         std::cout << "Arquivo gerado com sucesso!\n";
-        std::cout << "Pressione Enter para fechar a janela...\n";
-        std::cin.get();
-        exit(1);
     }
 }

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "ui_mainwindow.h"
 #include "sculptor.h"
 #include "stdlib.h"
 
@@ -9,7 +10,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-enum tools{PutVoxel, CutVoxel, PutBox, CutBox, PutSphere, CutSphere, PutEllipse, CutEllipse};
+enum Tools{PutVoxel, CutVoxel, PutBox, CutBox, PutSphere, CutSphere, PutEllipse, CutEllipse};
+
 
 class MainWindow : public QMainWindow
 {
@@ -18,7 +20,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    void changeTool(Tools);
 public slots:
     void openNewModelDialog(void);
     void putVoxelTool(void);
@@ -29,14 +31,26 @@ public slots:
     void cutSphereTool(void);
     void putEllipseTool(void);
     void cutEllipseTool(void);
+    void writeOFF(void);
     void make(int,int,int);
+    void changedPlan(int);
+    void pickColor(void);
+    void getFrontView(void);
+    void getBackView(void);
+    void getLeftView(void);
+    void getRightView(void);
+    void getTopView(void);
+    void getBottomView(void);
+    void getLayerView(void);
 signals:
     void sendDimension(int d);
     void sendDisplay(std::vector<std::vector<Voxel>>);
+    void sendPlan(int);
 private:
     Ui::MainWindow *ui;
-    Sculptor sculptor = Sculptor(10,10,10);
+    Sculptor *sculptor = new Sculptor(10,10,10);
     int dim = 10;
-    tools tool = PutVoxel;
+    Tools tool;
+    std::vector<QPushButton*> viewButtons;
 };
 #endif // MAINWINDOW_H

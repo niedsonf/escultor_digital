@@ -8,7 +8,7 @@
 SculptorDisplay::SculptorDisplay(QWidget *parent)
     : QWidget{parent}
 {
-
+    setMouseTracking(true);
 }
 
 void SculptorDisplay::paintEvent(QPaintEvent *event)
@@ -20,7 +20,7 @@ void SculptorDisplay::paintEvent(QPaintEvent *event)
     int ref = width() < height() ? width() : height();
 
     brush.setColor(Qt::lightGray);
-    brush.setStyle(Qt::SolidPattern);
+    brush.setStyle(Qt::Dense4Pattern);
     pen.setWidth(1);
     painter.setPen(pen);
     painter.setBrush(brush);
@@ -32,23 +32,22 @@ void SculptorDisplay::paintEvent(QPaintEvent *event)
     for(int x=0; x<dim; x++){
         for(int y=0; y<dim; y++){
             if(currentDisplay[x][y].isOn){
-                brush.setColor(Qt::cyan);
+                brush.setColor(QColor(currentDisplay[x][y].r, currentDisplay[x][y].g, currentDisplay[x][y].b, currentDisplay[x][y].a));
+                brush.setStyle(Qt::SolidPattern);
                 painter.setBrush(brush);
+
             } else {
                 brush.setColor(Qt::lightGray);
+                brush.setStyle(Qt::Dense4Pattern);
                 painter.setBrush(brush);
             }
             painter.drawRect(startPoint,linePoint,voxelDimension,voxelDimension);
+
             startPoint += voxelDimension;
         }
         linePoint += voxelDimension;
         startPoint = 0;
     }
-
-
-    /*for(float i=0.1; i<1; i+=0.1){
-        painter.drawLine(0, ref*i, ref, ref*i);
-    }*/
 
 }
 
@@ -57,24 +56,36 @@ void SculptorDisplay::mousePressEvent(QMouseEvent *event)
     int ref = width() < height() ? width() : height();
     int voxelDimension = ref/dim;
     int posX = event->x()/voxelDimension, posY = event->y()/voxelDimension;
-    qDebug() << "X: " << posX << " Y: " << posY;
-    emit clickedVoxel(posX, posY, planZ);
+    isPressed = true;
+    if(isPressed && event->x() < ref && event->y() < ref) {clickedVoxel(posX, posY, planZ);}
+}
+
+void SculptorDisplay::mouseMoveEvent(QMouseEvent *event)
+{
+    int ref = width() < height() ? width() : height();
+    int voxelDimension = ref/dim;
+    int posX = event->x()/voxelDimension, posY = event->y()/voxelDimension;
+    if(isPressed && event->x() < ref && event->y() < ref) {clickedVoxel(posX, posY, planZ);}
     repaint();
 }
 
-void SculptorDisplay::changeZ(int plan)
+void SculptorDisplay::mouseReleaseEvent(QMouseEvent *event)
 {
-    planZ = plan;
+    isPressed = false;
 }
 
 void SculptorDisplay::receiveDimension(int d)
 {
     dim = d;
-    repaint();
 }
 
 void SculptorDisplay::receivePlan(std::vector<std::vector<Voxel>> i)
 {
     currentDisplay = i;
     repaint();
+}
+
+void SculptorDisplay::receivePlanNumber(int i)
+{
+    planZ = i;
 }
